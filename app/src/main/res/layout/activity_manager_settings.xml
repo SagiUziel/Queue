@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackgroung"
+    tools:context=".ManagerSettings">
+
+    <Button
+        android:id="@+id/dummyFocuse"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorActionBar"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <android.support.v7.widget.GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:foregroundGravity="right|center_vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/my_toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/my_toolbar"
+            app:layout_constraintTop_toTopOf="@+id/my_toolbar"
+            app:layout_gravity="right">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="פרטי העסק"
+                android:textColor="@color/MainTextColor"
+                android:textSize="24sp"
+                app:layout_column="0"
+                app:layout_gravity="center_vertical"
+                app:layout_row="0" />
+        </android.support.v7.widget.GridLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/my_toolbar"
+        app:layout_constraintVertical_bias="1.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--business Image-->
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardView_Image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorPrimaryDark"
+                app:cardBackgroundColor="@color/cardBackgroundColor"
+                app:layout_constraintEnd_toEndOf="@+id/scrollView2"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imgBusinessImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/hairdresser"
+                    tools:layout_editor_absoluteX="55dp"
+                    tools:layout_editor_absoluteY="130dp" />
+            </android.support.v7.widget.CardView>
+
+            <!--business details-->
+            <android.support.v7.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/colorPrimaryDark"
+            app:cardBackgroundColor="@color/cardBackgroundColor"
+            app:layout_constraintEnd_toEndOf="@+id/scrollView2"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.v7.widget.GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="פרטי העסק"
+                    android:textColor="@color/smallColor"
+                    android:textSize="16sp"
+                    app:layout_column="0"
+                    app:layout_gravity="center_vertical"
+                    app:layout_row="0" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_BusinessName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/placeholderColor"
+                    app:layout_column="0"
+                    app:layout_row="1">
+
+                    <EditText
+                        android:id="@+id/txtBusinessName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="שם העסק"
+                        android:singleLine="true"
+                        android:textColor="@color/MainTextColor"
+                        android:textColorLink="@color/placeholderColor" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_BusinessDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/placeholderColor"
+                    app:layout_column="0"
+                    app:layout_row="2">
+
+                    <EditText
+                        android:id="@+id/input_BusinessDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="תאור העסק"
+                        android:singleLine="true"
+                        android:textColor="@color/MainTextColor"
+                        android:textColorLink="@color/placeholderColor" />
+                </android.support.design.widget.TextInputLayout>
+
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/input_BusinessType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:foregroundGravity="right"
+                    android:gravity="right"
+                    app:layout_column="0"
+                    app:layout_gravity="right"
+                    app:layout_row="3"
+                    app:ms_arrowSize="16dp"
+                    app:ms_dropDownHintView="@layout/dropdown_hint_item"
+                    app:ms_floatingLabelColor="@color/placeholderColor"
+                    app:ms_floatingLabelText="סוג העסק"
+                    app:ms_highlightColor="@color/smallColor"
+                    app:ms_hint="סוג העסק"
+                    app:ms_hintColor="@color/MainTextColor"
+                    app:ms_hintView="@layout/spinner_hint"
+                    app:ms_isRtl="true"
+                    app:ms_multiline="true" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_BusinessPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/placeholderColor"
+                    app:layout_column="0"
+                    app:layout_row="4">
+
+                    <EditText
+                        android:id="@+id/input_BusinessPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="טלפון"
+                        android:inputType="phone"
+                        android:singleLine="true"
+                        android:textColor="@color/MainTextColor"
+                        android:textColorLink="@color/placeholderColor" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_BusinessCity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/placeholderColor"
+                    app:layout_column="0"
+                    app:layout_row="5">
+
+                    <EditText
+                        android:id="@+id/input_BusinessCity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="עיר"
+                        android:singleLine="true"
+                        android:textColor="@color/MainTextColor"
+                        android:textColorLink="@color/placeholderColor" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_BusinessStreet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/placeholderColor"
+                    app:layout_column="0"
+                    app:layout_row="6">
+
+                    <EditText
+                        android:id="@+id/input_BusinessStreet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="רחוב"
+                        android:singleLine="true"
+                        android:textColor="@color/MainTextColor"
+                        android:textColorLink="@color/placeholderColor" />
+                </android.support.design.widget.TextInputLayout>
+
+            </android.support.v7.widget.GridLayout>
+        </android.support.v7.widget.CardView>
+
+            <!--workers-->
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorPrimaryDark"
+                app:cardBackgroundColor="@color/cardBackgroundColor"
+                app:layout_constraintEnd_toEndOf="@+id/scrollView2"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <android.support.v7.widget.GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="8dp"
+                    android:weightSum="6"
+                    app:columnCount="6">
+
+                    <TextView
+                        android:id="@+id/lblWorkers"
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        android:text="עובדים"
+                        android:textColor="@color/smallColor"
+                        android:textSize="16sp"
+                        app:layout_column="0"
+                        app:layout_columnSpan="3"
+                        app:layout_columnWeight="3"
+                        app:layout_gravity="center_vertical"
+                        app:layout_row="0" />
+
+                    <Button
+                        android:id="@+id/btn_addWorker"
+                        android:layout_width="10dp"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:text="הוסף עובד"
+                        android:foreground="@drawable/ripple_effect"
+                        android:background="@color/smallColor"
+                        android:onClick="OpenAddWorkerDialog"
+                        app:layout_column="3"
+                        app:layout_columnSpan="3"
+                        app:layout_columnWeight="3"
+                        app:layout_row="0" />
+
+                    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+                        android:id="@+id/lilBreakHours"
+                        android:layout_marginTop="10px"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:descendantFocusability="blocksDescendants"
+                        android:orientation="vertical"
+                        tools:context=".ListActivity"
+                        app:layout_column="0"
+                        app:layout_columnSpan="6"
+                        app:layout_row="4">
+
+                        <ListView
+                        android:id="@+id/lstWorkers"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.GridLayout>
+            </android.support.v7.widget.CardView>
+
+
+
+            <Button
+                android:id="@+id/btn_signup"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/smallColor2"
+                android:foreground="@drawable/ripple_effect"
+                android:text="שמור"
+                android:textColor="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

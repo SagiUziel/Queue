@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.GridLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:id="@+id/grdWorkTypes"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:paddingRight="8dp"
+android:paddingLeft="8dp"
+android:weightSum="6"
+app:columnCount="6">
+
+<android.support.design.widget.TextInputLayout
+    android:id="@+id/input_layout_WorkType"
+    android:layout_width="50dp"
+    android:layout_height="wrap_content"
+    android:textColorHint="@color/placeholderColor"
+    app:layout_column="0"
+    app:layout_columnSpan="2"
+    app:layout_columnWeight="2"
+    app:layout_row="1">
+
+    <EditText
+        android:id="@+id/txtWorkType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="סוג טיפול"
+        android:inputType="text"
+        android:singleLine="true"
+        android:textColor="@color/MainTextColor"
+        android:textColorLink="@color/placeholderColor" />
+</android.support.design.widget.TextInputLayout>
+
+<android.support.design.widget.TextInputLayout
+    android:id="@+id/input_layout_WorkDuration"
+    android:layout_width="50dp"
+    android:layout_height="wrap_content"
+    android:textColorHint="@color/placeholderColor"
+    app:layout_column="2"
+    app:layout_columnSpan="2"
+    app:layout_columnWeight="1"
+    app:layout_row="1">
+
+    <EditText
+        android:id="@+id/txtWorkDuration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:hint="זמן טיפול"
+        android:inputType="time"
+        android:singleLine="true"
+        android:onClick="openTimePickerDialog_Duration"
+        android:textColor="@color/MainTextColor"
+        android:textColorLink="@color/placeholderColor" />
+</android.support.design.widget.TextInputLayout>
+
+<Button
+    android:id="@+id/btn_cleanDays"
+    android:layout_width="50dp"
+    android:layout_height="25dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="20dp"
+    android:background="@color/smallColor2"
+    android:foreground="@drawable/ripple_effect"
+    android:text="מחק"
+    app:layout_column="4"
+    app:layout_columnSpan="2"
+    app:layout_row="1"
+    android:onClick="RemoveWorkTypeRow"/>
+
+
+</android.support.v7.widget.GridLayout>
+
