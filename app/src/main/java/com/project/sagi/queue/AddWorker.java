@@ -9,10 +9,16 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
+import es.dmoral.toasty.Toasty;
 
 public class AddWorker extends Dialog  {
     public Activity c;
@@ -80,12 +86,14 @@ public class AddWorker extends Dialog  {
         return _workTypeAdapter;
     }
 
+    private clsWorker _worker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_add_worker);
-
+        _worker = new clsWorker();
         addNewWorkingHours(null);
         addNewBreakingHours(null);
         addNewWorkType(null);
@@ -178,12 +186,72 @@ public class AddWorker extends Dialog  {
         }
     }
 
+    public void setWorkerImage(String imageName){
+        _worker.WorkerImage = imageName;
+    }
+
     public clsWorker GetNewWorker() {
-        clsWorker worker = new clsWorker();
+        String WorkerName = ((EditText)(findViewById(R.id.txtWorkerName))).getText().toString();
+        List<clsWorkingHours> WorkerWorkingHours = GetWorkingHours();
+
+        if (WorkerName == null || WorkerName.length() < 2) {
+            Toasty.warning(c, "הזן את שם העובד", Toast.LENGTH_SHORT, true).show();
+            return null;
+        }
+
+        if (WorkerWorkingHours == null || WorkerWorkingHours.size() == 0) {
+            Toasty.warning(c, "הזן שעות עבודה", Toast.LENGTH_SHORT, true).show();
+            return null;
+        }
+
+        for (int i = 0; i< WorkerWorkingHours.size(); i++){
+            clsWorkingHours workHour = WorkerWorkingHours.get(i);
+            if (workHour.FromTime == null) {
+                Toasty.warning(c, "הזן שעת התחלת עבודה", Toast.LENGTH_SHORT, true).show();
+                return null;
+            }
+            if (workHour.ToTime == null) {
+                Toasty.warning(c, "הזן שעת סיום עבודה", Toast.LENGTH_SHORT, true).show();
+                return null;
+            }
+            boolean isWorkDayOk = false;
+            if (workHour.WorkingDays == null){
+                Toasty.warning(c, "הזן ימי עבודה", Toast.LENGTH_SHORT, true).show();
+                return null;
+            }
+            for (int j = 0; j < workHour.WorkingDays.length; j++)
+            {
+                if (workHour.WorkingDays[j] == true)
+                {
+                    isWorkDayOk = true;
+                    break;
+                }
+            }
+            if (isWorkDayOk == false) {
+                Toasty.warning(c, "הזן ימי עבודה", Toast.LENGTH_SHORT, true).show();
+                return null;
+            }
+        }
+
+        List<clsWorkType> WorkTypes = GetWorkTypes();
+
+        for (int i = 0; i< WorkTypes.size(); i++){
+            clsWorkType workHour = WorkTypes.get(i);
+            if (workHour.WorkType == null) {
+                Toasty.warning(c, "הזן סוג טיפול", Toast.LENGTH_SHORT, true).show();
+                return null;
+            }
+            if (workHour.WorkDuration == null) {
+                Toasty.warning(c, "הזן זמן טיפול", Toast.LENGTH_SHORT, true).show();
+                return null;
+            }
+        }
+
+        clsWorker worker = _worker;
         worker.WorkerBreakingHours = GetBreakingHours();
-        worker.WorkerWorkingHours = GetWorkingHours();
+        worker.WorkerWorkingHours = WorkerWorkingHours;
         worker.WorkerWorkTypes = GetWorkTypes();
-        worker.WorkerName = ((EditText)(findViewById(R.id.txtWorkerName))).getText().toString();
+        worker.WorkerName = WorkerName;
         dismiss();
         return worker;
     }

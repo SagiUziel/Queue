@@ -94,9 +94,10 @@
 
                 <ImageView
                     android:id="@+id/imgBusinessImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
                     android:scaleType="centerCrop"
+                    android:onClick="PickBusinessImage"
                     app:srcCompat="@drawable/hairdresser"
                     tools:layout_editor_absoluteX="55dp"
                     tools:layout_editor_absoluteY="130dp" />
@@ -160,7 +161,7 @@
                     app:layout_row="2">
 
                     <EditText
-                        android:id="@+id/input_BusinessDescription"
+                        android:id="@+id/txtBusinessDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="תאור העסק"
@@ -169,25 +170,26 @@
                         android:textColorLink="@color/placeholderColor" />
                 </android.support.design.widget.TextInputLayout>
 
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/input_BusinessType"
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_BusinessType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:foregroundGravity="right"
-                    android:gravity="right"
+                    android:textColorHint="@color/placeholderColor"
                     app:layout_column="0"
-                    app:layout_gravity="right"
-                    app:layout_row="3"
-                    app:ms_arrowSize="16dp"
-                    app:ms_dropDownHintView="@layout/dropdown_hint_item"
-                    app:ms_floatingLabelColor="@color/placeholderColor"
-                    app:ms_floatingLabelText="סוג העסק"
-                    app:ms_highlightColor="@color/smallColor"
-                    app:ms_hint="סוג העסק"
-                    app:ms_hintColor="@color/MainTextColor"
-                    app:ms_hintView="@layout/spinner_hint"
-                    app:ms_isRtl="true"
-                    app:ms_multiline="true" />
+                    app:layout_row="3">
+
+                    <EditText
+                        android:id="@+id/txtBusinessType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="סוג העסק"
+                        android:onClick="selectBusinessType"
+                        android:singleLine="true"
+                        android:focusable="false"
+                        android:textColor="@color/MainTextColor"
+                        android:textColorLink="@color/placeholderColor" />
+                </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/input_layout_BusinessPhone"
@@ -198,7 +200,7 @@
                     app:layout_row="4">
 
                     <EditText
-                        android:id="@+id/input_BusinessPhone"
+                        android:id="@+id/txtBusinessPhone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="טלפון"
@@ -216,8 +218,8 @@
                     app:layout_column="0"
                     app:layout_row="5">
 
-                    <EditText
-                        android:id="@+id/input_BusinessCity"
+                    <AutoCompleteTextView
+                        android:id="@+id/txtBusinessCity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="עיר"
@@ -234,8 +236,8 @@
                     app:layout_column="0"
                     app:layout_row="6">
 
-                    <EditText
-                        android:id="@+id/input_BusinessStreet"
+                    <AutoCompleteTextView
+                        android:id="@+id/txtBusinessStreet"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="רחוב"
@@ -323,7 +325,7 @@
 
 
             <Button
-                android:id="@+id/btn_signup"
+                android:id="@+id/btnSignUpBusiness"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -335,6 +337,7 @@
                 android:background="@color/smallColor2"
                 android:foreground="@drawable/ripple_effect"
                 android:text="שמור"
+                android:onClick="signUpBusiness"
                 android:textColor="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

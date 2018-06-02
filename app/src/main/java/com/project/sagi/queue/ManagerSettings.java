@@ -1,48 +1,51 @@
 package com.project.sagi.queue;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
-import com.mikhaellopez.circularimageview.CircularImageView;
 import com.mvc.imagepicker.ImagePicker;
 
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
+import java.util.UUID;
 
+import es.dmoral.toasty.Toasty;
 import fr.ganfra.materialspinner.MaterialSpinner;
-
-import static android.app.PendingIntent.getActivity;
 
 public class ManagerSettings extends AppCompatActivity {
     private AddWorker awDialog;
-    private List<clsWorker> _workers;
+    private boolean m_isWorkerImage;
+    final private Context m_context = this;
+
     private List<clsWorker> GetWorkers() {
-        if (_workers == null) {
-            _workers = new ArrayList<clsWorker>();
+        if (GetBusiness().BusinessWorkers == null) {
+            m_business.BusinessWorkers = new ArrayList<clsWorker>();
         }
-        return _workers;
+        return m_business.BusinessWorkers;
     }
 
     private AdapterWorker _workerAdapter;
@@ -55,28 +58,82 @@ public class ManagerSettings extends AppCompatActivity {
         return _workerAdapter;
     }
 
+    private clsBusiness m_business;
+    public clsBusiness GetBusiness() {
+        if (m_business == null){
+            m_business = new clsBusiness();
+        }
+        return m_business;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager_settings);
         clsGlobalHelper.setLocalLanguage(getBaseContext());
-        ImagePicker.setMinQuality(600, 600);
 
-        String[] ITEMS = {"עיצוב שיער", "קוסמטיקה"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ITEMS);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        MaterialSpinner spinner = (MaterialSpinner) findViewById(R.id.input_BusinessType);
-        spinner.setAdapter(adapter);
+//        String[] ITEMS = {"עיצוב שיער", "קוסמטיקה"};
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ITEMS);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        MaterialSpinner spinner = (MaterialSpinner) findViewById(R.id.input_BusinessType);
+//        spinner.setAdapter(adapter);
+
+        AutoCompleteTextView txtBusinessCity = ((AutoCompleteTextView)findViewById(R.id.txtBusinessCity));
+        txtBusinessCity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                SocketService.SearchCity(s.toString(), m_context);
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        AutoCompleteTextView txtBusinessStreet = ((AutoCompleteTextView)findViewById(R.id.txtBusinessStreet));
+        txtBusinessStreet.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                SocketService.SearchAddress(s.toString(), m_context);
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Bitmap bitmap = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
-        awDialog.setWorkerImage(bitmap);
+        String fileGuid = UUID.randomUUID().toString();
+        if (m_isWorkerImage == true) {
+            awDialog.setWorkerImage(bitmap);
+            awDialog.setWorkerImage(fileGuid + ".JPEG");
+        } else {
+            GetBusiness().BusinessImage = fileGuid + ".JPEG";
+            setBusinessImage(bitmap);
+        }
+
+        SocketService.UploadImage(bitmap, this, fileGuid);
     }
 
+    protected void setBusinessImage(Bitmap bitmap) {
+        ImageView srcImageView = (ImageView)findViewById(R.id.imgBusinessImage);
+        if (bitmap != null && srcImageView != null) {
+            srcImageView.setImageBitmap(bitmap);
+        }
+    }
+
+    public void PickBusinessImage(View view){
+        m_isWorkerImage = false;
+        ImagePicker.setMinQuality(8000, 8000);
+        ImagePicker.pickImage(this, "בחר תמונה");
+    }
 
     public void PickUserImage(View view){
+        m_isWorkerImage = true;
+        ImagePicker.setMinQuality(600, 600);
         ImagePicker.pickImage(this, "בחר תמונה");
     }
 
@@ -259,13 +316,85 @@ public class ManagerSettings extends AppCompatActivity {
 
     public void addNewWorker(View v) {
         clsWorker newWorker = awDialog.GetNewWorker();
-        GetWorkers().add(newWorker);
-        GetWorkTypeAdapter().notifyDataSetChanged();
+        if (newWorker != null)
+        {
+            GetWorkers().add(newWorker);
+            GetWorkTypeAdapter().notifyDataSetChanged();
 
-        ListView listView = (ListView) findViewById(R.id.lstWorkers);
-        float scale = getResources().getDisplayMetrics().density;
-        int totalHeight = (int)(GetWorkers().size() * 85 * scale);
-        LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,totalHeight);
-        listView.setLayoutParams(parms);
+            ListView listView = (ListView) findViewById(R.id.lstWorkers);
+            float scale = getResources().getDisplayMetrics().density;
+            int totalHeight = (int)(GetWorkers().size() * 85 * scale);
+            LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,totalHeight);
+            listView.setLayoutParams(parms);
+        }
+    }
+
+    public void signUpBusiness(View view) {
+        String txtBusinessName = ((EditText)findViewById(R.id.txtBusinessName)).getText().toString();
+        String txtBusinessDescription = ((EditText)findViewById(R.id.txtBusinessDescription)).getText().toString();
+        String txtBusinessPhone = ((EditText)findViewById(R.id.txtBusinessPhone)).getText().toString();
+        String txtBusinessCity = ((EditText)findViewById(R.id.txtBusinessCity)).getText().toString();
+        String txtBusinessStreet = ((EditText)findViewById(R.id.txtBusinessStreet)).getText().toString();
+
+        if (txtBusinessName == null || txtBusinessName.length() < 3) {
+            Toasty.warning(this, "הזן את שם העסק", Toast.LENGTH_SHORT, true).show();
+            return;
+        }
+        if (txtBusinessPhone == null || txtBusinessPhone.length() < 5) {
+            Toasty.warning(this, "הזן את מספר הטלפון שלך", Toast.LENGTH_SHORT, true).show();
+            return;
+        }
+        if (txtBusinessCity == null || txtBusinessCity.length() < 3) {
+            Toasty.warning(this, "הזן את העיר שבה ממוקם העסק", Toast.LENGTH_SHORT, true).show();
+            return;
+        }
+        if (txtBusinessStreet == null || txtBusinessStreet.length() < 3) {
+            Toasty.warning(this, "הזן את הכתובת שבה ממוקם העסק", Toast.LENGTH_SHORT, true).show();
+            return;
+        }
+        if (GetBusiness().BusinessWorkers == null || GetBusiness().BusinessWorkers.size() == 0) {
+            Toasty.warning(this, "הזן לפחות עובד אחד שעובד בעסק", Toast.LENGTH_SHORT, true).show();
+            return;
+        }
+
+        if (GetBusiness().BusinessWorkers.size() > 50) {
+            Toasty.warning(this, "לא ניתן להזין יותר מ- 50 עובדים", Toast.LENGTH_SHORT, true).show();
+            return;
+        }
+
+        final Button btnSignUpBusiness=(Button)findViewById(R.id.btnSignUpBusiness);
+        btnSignUpBusiness.setEnabled(false);
+
+        clsBusiness business = GetBusiness();
+        //business.UserOwners = txtBusinessName;
+        business.BusinessName = txtBusinessName;
+        business.BusinessDescription = txtBusinessDescription;
+        business.BusinessPhone = txtBusinessPhone;
+        business.BusinessCity = txtBusinessCity;
+        business.BusinessStreet = txtBusinessStreet;
+        //business.BusinessType = txtBusinessStreet;
+        SocketService.SignUpBusiness(business, this);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                btnSignUpBusiness.setEnabled(true);
+            }
+        }, 2000);
+    }
+
+    public void selectBusinessType(View view) {
+        AlertDialog.Builder b = new AlertDialog.Builder(this, R.style.DialogTheme);
+        b.setTitle("בחר סוג עסק");
+        String[] types = {"עיצוב שיער", "קוסמטיקה", "מוסך"};
+        b.setItems(types, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+            }
+        });
+
+        b.show();
     }
 }
