@@ -49,7 +49,6 @@ app:columnCount="6">
         android:hint="זמן טיפול"
         android:inputType="time"
         android:singleLine="true"
-        android:onClick="openTimePickerDialog_Duration"
         android:textColor="@color/MainTextColor"
         android:textColorLink="@color/placeholderColor" />
 </android.support.design.widget.TextInputLayout>
@@ -66,8 +65,7 @@ app:columnCount="6">
     android:text="מחק"
     app:layout_column="4"
     app:layout_columnSpan="2"
-    app:layout_row="1"
-    android:onClick="RemoveWorkTypeRow"/>
+    app:layout_row="1"/>
 
 
 </android.support.v7.widget.GridLayout>

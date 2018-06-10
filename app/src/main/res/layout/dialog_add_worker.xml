@@ -37,7 +37,6 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="21dp"
             android:baselineAlignBottom="false"
-            android:onClick="PickUserImage"
             android:src="@drawable/user"
             app:civ_border_color="@color/placeholderColor"
             app:civ_border_width="6dp"
@@ -168,7 +167,6 @@
                     android:layout_marginRight="5dp"
                     android:background="@color/smallColor"
                     android:foreground="@drawable/ripple_effect"
-                    android:onClick="addNewWorkingHours"
                     android:layout_marginBottom="8dp"
                     android:text="הוסף" />
             </RelativeLayout>
@@ -242,7 +240,6 @@
                     android:layout_marginRight="5dp"
                     android:background="@color/smallColor"
                     android:foreground="@drawable/ripple_effect"
-                    android:onClick="addNewBreakingHours"
                     android:layout_marginBottom="8dp"
                     android:text="הוסף" />
 
@@ -320,7 +317,6 @@
                     android:layout_marginRight="5dp"
                     android:background="@color/smallColor"
                     android:foreground="@drawable/ripple_effect"
-                    android:onClick="addNewWorkType"
                     android:layout_marginBottom="8dp"
                     android:text="הוסף" />
 
@@ -341,7 +337,6 @@
             android:layout_marginStart="8dp"
             android:background="@color/smallColor2"
             android:foreground="@drawable/ripple_effect"
-            android:onClick="addNewWorker"
             android:text="שמור"
             android:textColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"

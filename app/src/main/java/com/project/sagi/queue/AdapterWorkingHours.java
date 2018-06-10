@@ -44,6 +44,9 @@ public class AdapterWorkingHours extends ArrayAdapter<clsWorkingHours> {
         } else {
             txtEndTime.setText("");
         }
+
+
+
         return convertView;
     }
 }

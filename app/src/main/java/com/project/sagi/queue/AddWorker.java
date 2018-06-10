@@ -6,27 +6,30 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.mvc.imagepicker.ImagePicker;
+import com.project.sagi.queue.Fragment.SignUpBusiness;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 import es.dmoral.toasty.Toasty;
 
 public class AddWorker extends Dialog  {
     public Activity c;
+    private SignUpBusiness _ms;
     public Dialog d;
 
-    public AddWorker(Activity a) {
+    public AddWorker(Activity a, SignUpBusiness ms) {
         super(a);
         this.c = a;
+        _ms = ms;
     }
 
     private ArrayList<clsWorkingHours> _workingHours;
@@ -90,13 +93,115 @@ public class AddWorker extends Dialog  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.dialog_add_worker);
-        _worker = new clsWorker();
-        addNewWorkingHours(null);
-        addNewBreakingHours(null);
-        addNewWorkType(null);
+        try{
+            super.onCreate(savedInstanceState);
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setContentView(R.layout.dialog_add_worker);
+            _worker = new clsWorker();
+            addNewWorkingHours(null);
+            addNewBreakingHours(null);
+            addNewWorkType(null);
+
+            CircularImageView WorkerImage=(CircularImageView)findViewById(R.id.WorkerImage);
+            WorkerImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PickUserImage(v);
+                }
+            });
+
+            Button btn_addBreakHoursDays=(Button)findViewById(R.id.btn_addBreakHoursDays);
+            btn_addBreakHoursDays.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addNewWorkingHours(v);
+                }
+            });
+
+            Button btn_addDays=(Button)findViewById(R.id.btn_addDays);
+            btn_addDays.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addNewBreakingHours(v);
+                }
+            });
+
+            Button btn_addWorkType=(Button)findViewById(R.id.btn_addWorkType);
+            btn_addWorkType.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addNewWorkType(v);
+                }
+            });
+
+            Button btn_signup =(Button)findViewById(R.id.btn_signup);
+            btn_signup.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    _ms.addNewWorker(v);
+                }
+            });
+
+            EditText txtWorkDuration =(EditText)findViewById(R.id.txtWorkDuration);
+            txtWorkDuration.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    _ms.openTimePickerDialog_Duration(v);
+                }
+            });
+
+            Button btn_cleanDays =(Button)findViewById(R.id.btn_cleanDays);
+            btn_cleanDays.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    _ms.RemoveWorkTypeRow(v);
+                }
+            });
+
+            EditText txtDays =(EditText)findViewById(R.id.txtDays);
+            txtDays.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    _ms.openDayPickerDialog(v);
+                }
+            });
+
+            EditText txtStartTime =(EditText)findViewById(R.id.txtStartTime);
+            txtStartTime.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    _ms.openTimePickerDialog_Start(v);
+                }
+            });
+
+            EditText txtEndTime =(EditText)findViewById(R.id.txtEndTime);
+            txtEndTime.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    _ms.openTimePickerDialog_End(v);
+                }
+            });
+
+            Button btn_cleanDays_Work =(Button)findViewById(R.id.btn_cleanDays);
+            btn_cleanDays_Work.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    _ms.RemoveWorkHourRow(v);
+                }
+            });
+
+        } catch (Exception ex) {
+            SocketService.WriteError(ex);
+        }
+    }
+
+    public void PickUserImage(View view){
+        try{
+            ImagePicker.setMinQuality(600, 600);
+            ImagePicker.pickImage(c, "בחר תמונה");
+        } catch (Exception ex) {
+            SocketService.WriteError(ex);
+        }
     }
 
     public void RemoveWorkHourRow(View view) {
@@ -140,7 +245,7 @@ public class AddWorker extends Dialog  {
         listView.setLayoutParams(parms);
     }
 
-    protected void addNewWorkingHours(View v) {
+    public void addNewWorkingHours(View v) {
         final ArrayList<clsWorkingHours> workingHoursLst = GetWorkingHours();
         workingHoursLst.add(new clsWorkingHours());
         ListView listView = (ListView) findViewById(R.id.lstWorkingHours);
@@ -153,7 +258,7 @@ public class AddWorker extends Dialog  {
         listView.setLayoutParams(parms);
     }
 
-    protected void addNewBreakingHours(View v) {
+    public void addNewBreakingHours(View v) {
         final ArrayList<clsWorkingHours> breakingHoursLst = GetBreakingHours();
         breakingHoursLst.add(new clsWorkingHours());
         ListView listView = (ListView) findViewById(R.id.lstBreakHours);
@@ -166,7 +271,7 @@ public class AddWorker extends Dialog  {
         listView.setLayoutParams(parms);
     }
 
-    protected void addNewWorkType(View v) {
+    public void addNewWorkType(View v) {
         final ArrayList<clsWorkType> workTypesLst = GetWorkTypes();
         workTypesLst.add(new clsWorkType());
         ListView listView = (ListView) findViewById(R.id.lstWorkType);
@@ -179,7 +284,7 @@ public class AddWorker extends Dialog  {
         listView.setLayoutParams(parms);
     }
 
-    protected void setWorkerImage(Bitmap bitmap) {
+    public void setWorkerImage(Bitmap bitmap) {
         CircularImageView circularImageView = (CircularImageView)findViewById(R.id.WorkerImage);
         if (bitmap != null && circularImageView != null) {
             circularImageView.setImageBitmap(bitmap);

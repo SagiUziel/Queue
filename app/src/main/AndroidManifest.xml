@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.project.sagi.queue">
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
-        tools:node="replace"
         android:layout_gravity="right"
         android:allowBackup="true"
         android:gravity="right"
         android:icon="@mipmap/ic_launcher"
-        android:label="הרשמה"
+        android:label="תור און-ליין"
         android:layoutDirection="rtl"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:textDirection="rtl"
-        android:theme="@style/MyAppTheme">
-        <activity android:name=".MainActivity">
+        android:theme="@style/MyAppTheme"
+        tools:node="replace">
+        <activity android:name=".SearchBusiness">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ManagerSettings" />
+        <!--<activity android:name=".Fragment.ManagerSettings" />-->
     </application>
 
 </manifest>

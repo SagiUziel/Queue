@@ -18,6 +18,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
@@ -71,6 +73,12 @@ public class SocketService {
         }
     }
 
+    public static void WriteError(Exception ex) {
+        StringWriter errors = new StringWriter();
+        ex.printStackTrace(new PrintWriter(errors));
+        GetSocket().emit("WriteError", ex.getMessage(), errors.toString());
+    }
+
     public static void UploadImage(final Bitmap bitmap, Context activity, final String imageGuid) {
         m_activity = activity;
         new Thread(new Runnable() {
@@ -97,8 +105,8 @@ public class SocketService {
                         String Message = (String) args[1];
                         if (exitCode == 0) {
                             Toasty.success(m_activity, Message, Toast.LENGTH_SHORT, true).show();
-                            Intent myIntent = new Intent(m_activity, ManagerSettings.class);
-                            m_activity.startActivity(myIntent);
+                            //Intent myIntent = new Intent(m_activity, ManagerSettings.class);
+                            //m_activity.startActivity(myIntent);
                         } else if (exitCode == 1) {
                             Toasty.warning(m_activity, Message, Toast.LENGTH_SHORT, true).show();
                         } else {
