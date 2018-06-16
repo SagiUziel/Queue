@@ -20,7 +20,7 @@
         android:textDirection="rtl"
         android:theme="@style/MyAppTheme"
         tools:node="replace">
-        <activity android:name=".SearchBusiness">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

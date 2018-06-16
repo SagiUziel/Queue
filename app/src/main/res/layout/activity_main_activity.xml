@@ -9,7 +9,7 @@
     tools:openDrawer="start">
 
     <include
-        layout="@layout/app_bar_search_business"
+        layout="@layout/app_bar_main_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -22,7 +22,7 @@
         android:fitsSystemWindows="true"
         app:itemIconTint="@color/MainTextColor"
         app:itemTextColor="@color/MainTextColor"
-        app:headerLayout="@layout/nav_header_search_business"
+        app:headerLayout="@layout/nav_header_main_activity"
         app:menu="@menu/activity_search_business_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

@@ -2,6 +2,7 @@ package com.project.sagi.queue;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.database.DataSetObserver;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -62,6 +63,17 @@ public class AddWorker extends Dialog  {
             _adapter = new AdapterWorkingHours(c, GetWorkingHours());
             ListView listView = (ListView) findViewById(R.id.lstWorkingHours);
             LinearLayout layoutList = (LinearLayout) findViewById(R.id.lilWorkingHours);
+            _adapter.registerDataSetObserver(new DataSetObserver()
+            {
+                @Override
+                public void onChanged()
+                {
+                    final float scale = getContext().getResources().getDisplayMetrics().density;
+                    int totalHeight = (int) (GetWorkingHours().size() * 57 * scale);
+                    LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,totalHeight);
+                    listView.setLayoutParams(parms);
+                }
+            });
             listView.setAdapter(_adapter);
         }
         return _adapter;
@@ -73,6 +85,17 @@ public class AddWorker extends Dialog  {
             _breakingHoursAdapter = new AdapterWorkingHours(c, GetBreakingHours());
             ListView listView = (ListView) findViewById(R.id.lstBreakHours);
             LinearLayout layoutList = (LinearLayout) findViewById(R.id.lilBreakHours);
+            _breakingHoursAdapter.registerDataSetObserver(new DataSetObserver()
+            {
+                @Override
+                public void onChanged()
+                {
+                    final float scale = getContext().getResources().getDisplayMetrics().density;
+                    int totalHeight = (int) (GetBreakingHours().size() * 57 * scale);
+                    LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,totalHeight);
+                    listView.setLayoutParams(parms);
+                }
+            });
             listView.setAdapter(_breakingHoursAdapter);
         }
         return _breakingHoursAdapter;
@@ -84,6 +107,17 @@ public class AddWorker extends Dialog  {
             _workTypeAdapter = new AdapterWorkType(c, GetWorkTypes());
             ListView listView = (ListView) findViewById(R.id.lstWorkType);
             LinearLayout layoutList = (LinearLayout) findViewById(R.id.lilWorkType);
+            _workTypeAdapter.registerDataSetObserver(new DataSetObserver()
+            {
+                @Override
+                public void onChanged()
+                {
+                    final float scale = getContext().getResources().getDisplayMetrics().density;
+                    int totalHeight = (int) (GetWorkTypes().size() * 57 * scale);
+                    LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,totalHeight);
+                    listView.setLayoutParams(parms);
+                }
+            });
             listView.setAdapter(_workTypeAdapter);
         }
         return _workTypeAdapter;
@@ -138,58 +172,9 @@ public class AddWorker extends Dialog  {
             btn_signup.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    _ms.addNewWorker(v);
+                    _ms.addNewWorker();
                 }
             });
-
-            EditText txtWorkDuration =(EditText)findViewById(R.id.txtWorkDuration);
-            txtWorkDuration.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    _ms.openTimePickerDialog_Duration(v);
-                }
-            });
-
-            Button btn_cleanDays =(Button)findViewById(R.id.btn_cleanDays);
-            btn_cleanDays.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    _ms.RemoveWorkTypeRow(v);
-                }
-            });
-
-            EditText txtDays =(EditText)findViewById(R.id.txtDays);
-            txtDays.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    _ms.openDayPickerDialog(v);
-                }
-            });
-
-            EditText txtStartTime =(EditText)findViewById(R.id.txtStartTime);
-            txtStartTime.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    _ms.openTimePickerDialog_Start(v);
-                }
-            });
-
-            EditText txtEndTime =(EditText)findViewById(R.id.txtEndTime);
-            txtEndTime.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    _ms.openTimePickerDialog_End(v);
-                }
-            });
-
-            Button btn_cleanDays_Work =(Button)findViewById(R.id.btn_cleanDays);
-            btn_cleanDays_Work.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    _ms.RemoveWorkHourRow(v);
-                }
-            });
-
         } catch (Exception ex) {
             SocketService.WriteError(ex);
         }
@@ -204,58 +189,12 @@ public class AddWorker extends Dialog  {
         }
     }
 
-    public void RemoveWorkHourRow(View view) {
-        View parentRow = (View) view.getParent();
-        ListView clickedListView = (ListView) parentRow.getParent();
-        int position = clickedListView.getPositionForView(parentRow);
-
-        if (view.getResources().getResourceEntryName(((View)view.getParent().getParent()).getId()).contains("Break") == true){
-            ListView listView = (ListView) findViewById(R.id.lstBreakHours);
-            LinearLayout layoutList = (LinearLayout) findViewById(R.id.lilBreakHours);
-            GetBreakingHours().remove(position);
-            GetBreakingHoursAdapter().notifyDataSetChanged();
-            float scale = getContext().getResources().getDisplayMetrics().density;
-            int totalHeight = (int) (GetBreakingHours().size() * 57 * scale);
-            LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,totalHeight);
-            listView.setLayoutParams(parms);
-        } else {
-            ListView listView = (ListView) findViewById(R.id.lstWorkingHours);
-            LinearLayout layoutList = (LinearLayout) findViewById(R.id.lilWorkingHours);
-            GetWorkingHours().remove(position);
-            GetWorkingHoursAdapter().notifyDataSetChanged();
-            float scale = getContext().getResources().getDisplayMetrics().density;
-            int totalHeight = (int) (GetWorkingHours().size() * 57 * scale);
-            LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,totalHeight);
-            listView.setLayoutParams(parms);
-        }
-    }
-
-    public void RemoveWorkTypeRow(View view) {
-        View parentRow = (View) view.getParent();
-        ListView clickedListView = (ListView) parentRow.getParent();
-        int position = clickedListView.getPositionForView(parentRow);
-
-        ListView listView = (ListView) findViewById(R.id.lstWorkType);
-        LinearLayout layoutList = (LinearLayout) findViewById(R.id.lilWorkType);
-        GetWorkTypes().remove(position);
-        GetWorkTypeAdapter().notifyDataSetChanged();
-        float scale = getContext().getResources().getDisplayMetrics().density;
-        int totalHeight = (int) (GetWorkTypes().size() * 57 * scale);
-        LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,totalHeight);
-        listView.setLayoutParams(parms);
-    }
-
     public void addNewWorkingHours(View v) {
         final ArrayList<clsWorkingHours> workingHoursLst = GetWorkingHours();
         workingHoursLst.add(new clsWorkingHours());
         ListView listView = (ListView) findViewById(R.id.lstWorkingHours);
 
         GetWorkingHoursAdapter().notifyDataSetChanged();
-
-        final float scale = getContext().getResources().getDisplayMetrics().density;
-        int totalHeight = (int) (workingHoursLst.size() * 57 * scale);
-        LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,totalHeight);
-        listView.setLayoutParams(parms);
     }
 
     public void addNewBreakingHours(View v) {
@@ -264,11 +203,6 @@ public class AddWorker extends Dialog  {
         ListView listView = (ListView) findViewById(R.id.lstBreakHours);
 
         GetBreakingHoursAdapter().notifyDataSetChanged();
-
-        final float scale = getContext().getResources().getDisplayMetrics().density;
-        int totalHeight = (int) (breakingHoursLst.size() * 57 * scale);
-        LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,totalHeight);
-        listView.setLayoutParams(parms);
     }
 
     public void addNewWorkType(View v) {
@@ -277,11 +211,6 @@ public class AddWorker extends Dialog  {
         ListView listView = (ListView) findViewById(R.id.lstWorkType);
 
         GetWorkTypeAdapter().notifyDataSetChanged();
-
-        final float scale = getContext().getResources().getDisplayMetrics().density;
-        int totalHeight = (int) (workTypesLst.size() * 57 * scale);
-        LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,totalHeight);
-        listView.setLayoutParams(parms);
     }
 
     public void setWorkerImage(Bitmap bitmap) {

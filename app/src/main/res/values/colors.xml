@@ -2,6 +2,7 @@
 <resources>
     <color name="colorActionBar">#3b4d6f</color>
     <color name="cardBackgroundColor">#2f3a4f</color>
+    <color name="searchBarBackgroundColor">#2a3446</color>
     <color name="colorPrimaryDark">#344361</color>
     <color name="colorAccent">#72eb79</color>
     <color name="colorBackgroung">#232c3d</color>

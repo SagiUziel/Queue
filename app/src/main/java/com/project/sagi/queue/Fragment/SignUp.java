@@ -2,11 +2,9 @@ package com.project.sagi.queue.Fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +40,7 @@ public class SignUp extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstaceState){
         try{
-            View view = inflater.inflate(R.layout.activity_sign_up, container, false);
+            View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
             Button bt1=(Button)view.findViewById(R.id.btn_signup);
             bt1.setOnClickListener(new View.OnClickListener() {
                 @Override

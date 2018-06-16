@@ -36,7 +36,7 @@ public class SocketService {
     private static Socket GetSocket(){
         if (mSocket == null) {
             try {
-                mSocket = IO.socket("http://18.221.220.106:3000");
+                mSocket = IO.socket("https://stale-swan-51.localtunnel.me");
                 mSocket.connect();
             } catch (URISyntaxException e) {}
         }
